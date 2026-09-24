@@ -10,14 +10,10 @@ import type { Challenge } from './utils/words';
 import { useState, useEffect } from 'react';
 import type { LetterUsedProps } from './components/LettersUsed';
 export default function App() {
+  const [score, setScore] = useState(0);
   const [atempts, setAtempts] = useState(0);
   const [letter, setLetter] = useState('');
-  const [lettersUsed, setLettersUsed] = useState<LetterUsedProps[]>([
-    {
-      value: 'X',
-      correct: true,
-    },
-  ]);
+  const [lettersUsed, setLettersUsed] = useState<LetterUsedProps[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   function handleOnRestartGame() {
     alert('Reiniciar o jogo');
@@ -48,8 +44,16 @@ export default function App() {
       return alert(`Você já utilizou a letra ${value}`);
     }
 
-    setLettersUsed((prevState) => [...prevState, { value, correct: false }]);
+    const hits = challenge.word
+      .toUpperCase()
+      .split('')
+      .filter((char) => char === value).length;
 
+    const correct = hits > 0;
+    const currentScore = score + hits;
+
+    setLettersUsed((prevState) => [...prevState, { value, correct }]);
+    setScore(currentScore);
     setLetter('');
   }
 
@@ -65,11 +69,11 @@ export default function App() {
     <div className={styles.container}>
       <main>
         <Header current={5} max={10} onRestart={handleOnRestartGame} />
-        <Tip tip="Uma das inguagem de programação mais utilizadas" />
+        <Tip tip={challenge.tip} />
 
         <div className={styles.word}>
           {challenge.word.split('').map(() => (
-            <Letter value="R" />
+            <Letter value="" />
           ))}
         </div>
 
