@@ -68,7 +68,7 @@ export default function App() {
   return (
     <div className={styles.container}>
       <main>
-        <Header current={score} max={10} onRestart={handleOnRestartGame} />
+        <Header current={lettersUsed.length} max={10} onRestart={handleOnRestartGame} />
         <Tip tip={challenge.tip} />
 
         <div className={styles.word}>
