@@ -8,7 +8,7 @@ O objetivo é descobrir a palavra secreta informando uma letra por vez. O jogo f
 
 ## 📸 Preview
 
-![Adivinha a Palavra](./src/assets/preview.png)
+![Adivinha a Palavra](./src/assets/preview.gif)
 
 ---
 
