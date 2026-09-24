@@ -5,10 +5,42 @@ import { Input } from './components/Input';
 import { Button } from './components/Button';
 import { LettersUsed } from './components/LettersUsed';
 import styles from './app.module.css';
+import { WORDS } from './utils/words';
+import type { Challenge } from './utils/words';
+import { useState, useEffect } from 'react';
+import type { LetterUsedProps } from './components/LettersUsed';
 export default function App() {
+  const [atempts, setAtempts] = useState(0);
+  const [letter, setLetter] = useState('');
+  const [lettersUsed, setLettersUsed] = useState<LetterUsedProps[]>([
+    {
+      value: 'X',
+      correct: true,
+    },
+  ]);
+  const [challenge, setChallenge] = useState<Challenge | null>(null);
   function handleOnRestartGame() {
     alert('Reiniciar o jogo');
   }
+
+  function startGame() {
+    const index = Math.floor(Math.random() * WORDS.length);
+    const randomWord = WORDS[index];
+
+    setChallenge(randomWord);
+
+    setAtempts(0);
+    setLetter('');
+  }
+
+  useEffect(() => {
+    startGame();
+  }, []);
+
+  if (!challenge) {
+    return null;
+  }
+
   return (
     <div className={styles.container}>
       <main>
@@ -16,11 +48,9 @@ export default function App() {
         <Tip tip="Uma das inguagem de programação mais utilizadas" />
 
         <div className={styles.word}>
-          <Letter value="R" />
-          <Letter value="E" />
-          <Letter value="A" />
-          <Letter value="C" />
-          <Letter value="T" />
+          {challenge.word.split('').map(() => (
+            <Letter value="R" />
+          ))}
         </div>
 
         <h4>Palpite</h4>
@@ -30,7 +60,7 @@ export default function App() {
           <Button title="Confirmar" />
         </div>
 
-        <LettersUsed />
+        <LettersUsed data={lettersUsed} />
       </main>
     </div>
   );
