@@ -9,11 +9,13 @@ import { WORDS } from './utils/words';
 import type { Challenge } from './utils/words';
 import { useState, useEffect } from 'react';
 import type { LetterUsedProps } from './components/LettersUsed';
+const ATTEMPT_MARGIN = 5;
 export default function App() {
   const [score, setScore] = useState(0);
   const [letter, setLetter] = useState('');
   const [lettersUsed, setLettersUsed] = useState<LetterUsedProps[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
+
   function handleOnRestartGame() {
     alert('Reiniciar o jogo');
   }
@@ -68,7 +70,11 @@ export default function App() {
   return (
     <div className={styles.container}>
       <main>
-        <Header current={lettersUsed.length} max={10} onRestart={handleOnRestartGame} />
+        <Header
+          current={lettersUsed.length}
+          max={challenge.word.length + ATTEMPT_MARGIN}
+          onRestart={handleOnRestartGame}
+        />
         <Tip tip={challenge.tip} />
 
         <div className={styles.word}>
